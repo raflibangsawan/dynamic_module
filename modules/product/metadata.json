@@ -1,0 +1,9 @@
+{
+  "name": "product",
+  "version": "1.0.0",
+  "description": "Product management module",
+  "author": "Rafli Bangsawan",
+  "dependencies": [],
+  "models": ["Product"],
+  "urls": ["product/"]
+} 

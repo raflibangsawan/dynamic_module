@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Module List{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">Module List</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for module in modules %}
+    <a href="{% if module.is_installed %}/{{ module.name }}/{% else %}#{% endif %}" class="block">
+        <div class="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-200 p-8 flex flex-col justify-between group border border-gray-100 {% if not module.is_installed %}opacity-50 cursor-not-allowed{% endif %}">
+            <div class="flex items-center mb-6">
+                <!-- Module Icon -->
+                <div class="w-14 h-14 bg-apple-blue-100 flex items-center justify-center rounded-xl mr-5">
+                    <svg class="w-8 h-8 text-apple-blue-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <span class="text-xl font-semibold text-gray-900 tracking-tight">{{ module.name|title }}</span>
+                        <span class="text-xs text-gray-500">v{{ module.version }}</span>
+                    </div>
+                    <div class="text-xs text-gray-400">by {{ module.metadata.author }}</div>
+                </div>
+                <!-- Status Badge -->
+                {% if module.is_installed %}
+                    <span class="ml-4 px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 border border-green-200">Installed</span>
+                {% else %}
+                    <span class="ml-4 px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-500 border border-gray-200">Not Installed</span>
+                {% endif %}
+            </div>
+            <div class="mb-8 text-gray-600 text-sm min-h-[48px]">{{ module.metadata.description }}</div>
+            <div class="flex justify-between mt-auto" onclick="event.stopPropagation()">
+                <a href="{% url 'install_module' module.name %}" class="flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
+                    {% if module.is_installed %}bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none{% else %}bg-apple-blue-500 text-white hover:bg-apple-blue-600{% endif %}">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                    Install
+                </a>
+                <a href="{% url 'uninstall_module' module.name %}" class="flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200
+                    {% if not module.is_installed %}bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none{% else %}bg-red-500 text-white hover:bg-red-600{% endif %}">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                    Uninstall
+                </a>
+                <a href="{% url 'upgrade_module' module.name %}" class="flex items-center px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-green-500 text-white hover:bg-green-600">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582M20 20v-5h-.581M5 9A7.003 7.003 0 0012 17a7.003 7.003 0 007-8M5 9V4h5M19 15a7.003 7.003 0 01-7-8m7 8V20h-5"/></svg>
+                    Upgrade
+                </a>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %} 
