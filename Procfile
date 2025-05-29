@@ -1,2 +1,2 @@
-release: python manage.py startapp theme && python manage.py tailwind init theme && python manage.py tailwind install && python manage.py tailwind build && python manage.py collectstatic --noinput && python manage.py migrate
+release: chmod +x build.sh && ./build.sh
 web: gunicorn core.wsgi:application 
