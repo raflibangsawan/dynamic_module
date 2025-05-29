@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Create theme app
-python manage.py startapp theme
+# Create theme directory if it doesn't exist
+mkdir -p theme
+
+# Create __init__.py in theme directory
+touch theme/__init__.py
 
 # Initialize tailwind
 python manage.py tailwind init theme
