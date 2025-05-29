@@ -1,5 +1,7 @@
 #!/bin/bash
 
+pip install -r requirements.txt
+
 # Create theme directory if it doesn't exist
 mkdir -p theme
 
