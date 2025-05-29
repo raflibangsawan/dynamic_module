@@ -30,7 +30,10 @@ DEBUG = os.getenv('DEBUG', 'True') == 'True'
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.railway.app').split(',')
 
 # Add this for Railway
-CSRF_TRUSTED_ORIGINS = [f"https://{host}" for host in ALLOWED_HOSTS if host != 'localhost' and host != '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [
+    'https://web-production-ea3a.up.railway.app',
+    'https://*.railway.app'
+]
 
 
 # Application definition
