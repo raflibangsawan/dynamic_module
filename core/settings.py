@@ -51,18 +51,19 @@ INSTALLED_APPS = [
     'modules.product',
     'modules.employee',
     'modules.manager',
+    'modules.payment',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add whitenoise middleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'main.middleware.ModuleAccessMiddleware',  # Add module access middleware
+    'main.middleware.ModuleAccessMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'

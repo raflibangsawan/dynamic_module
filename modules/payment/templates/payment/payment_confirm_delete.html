@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-2xl mx-auto">
+        <h1 class="text-2xl font-bold mb-6">Delete Payment</h1>
+        
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <p class="mb-4">Are you sure you want to delete this payment?</p>
+            
+            <div class="bg-gray-100 p-4 rounded mb-6">
+                <p><strong>Currency:</strong> {{ payment.currency }}</p>
+                <p><strong>Amount:</strong> {{ payment.amount }}</p>
+                <p><strong>Description:</strong> {{ payment.description }}</p>
+                <p><strong>Date:</strong> {{ payment.created_at|date:"Y-m-d H:i" }}</p>
+            </div>
+            
+            <form method="post">
+                {% csrf_token %}
+                <div class="flex items-center justify-between">
+                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                        Confirm Delete
+                    </button>
+                    <a href="{% url 'payment:payment_list' %}" class="text-blue-500 hover:text-blue-800">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %} 

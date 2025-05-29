@@ -10,7 +10,6 @@ import json
 import os
 
 def scan_modules():
-    """Scan the modules directory and update the module registry."""
     modules_dir = 'modules'
     new_modules = []
     for module_name in os.listdir(modules_dir):
@@ -20,7 +19,7 @@ def scan_modules():
             if os.path.exists(metadata_path):
                 with open(metadata_path, 'r') as f:
                     metadata = json.load(f)
-                    module, created = ModuleRegistry.objects.update_or_create(
+                    module, created = ModuleRegistry.objects.get_or_create(
                         name=metadata['name'],
                         defaults={
                             'version': metadata['version'],
@@ -36,9 +35,10 @@ def home(request):
     new_modules = scan_modules()
     if new_modules:
         messages.info(request, f'New modules detected: {", ".join(new_modules)}')
-    get_urlpatterns()
     
-    modules = ModuleRegistry.objects.all()
+    get_urlpatterns()
+        
+    modules = ModuleRegistry.objects.all().order_by('name')
     return render(request, 'main/module_list.html', {'modules': modules})
 
 @login_required

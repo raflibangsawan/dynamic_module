@@ -2,7 +2,7 @@
     "name": "manager",
     "display_name": "Manager Management",
     "description": "Simple manager management module",
-    "version": "1.0.0",
-    "author": "Sae Pasomba",
+    "version": "3.0.1",
+    "author": "Sae Puttra",
     "dependencies": []
 }

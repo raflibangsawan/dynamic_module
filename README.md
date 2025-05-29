@@ -170,23 +170,22 @@ urlpatterns = [
 ]
 ```
 
-### 7. Register Module
+### 7. Add Module to Installed Apps
 
-Add your module to `modules/main/models.py`:
+Add your module in settings.py INSTALLED_APPS
 ```python
-class ModuleRegistry(models.Model):
-    # ... existing fields ...
-    
-    @classmethod
-    def register_module(cls, module_name):
-        module, created = cls.objects.get_or_create(
-            name=module_name,
-            defaults={
-                'is_installed': True,
-                'is_active': True
-            }
-        )
-        return module
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'tailwind',
+    'theme',
+    'main',
+    'modules.<your_module>',
+]
 ```
 
 ### 8. Create Migrations
@@ -196,22 +195,14 @@ python manage.py makemigrations your_module
 python manage.py migrate
 ```
 
-### 9. Install Module
 
-1. Copy your module directory to `modules/`
-2. Run migrations
-3. Register the module in the admin interface or using the shell:
-```python
-from modules.main.models import ModuleRegistry
-ModuleRegistry.register_module('your_module')
-```
-
-### 10. Access Module
+### 9. Access Module
 
 Your module will be available at:
 ```
 http://localhost:8000/your_module/
 ```
+after installing via application
 
 ## Development
 
