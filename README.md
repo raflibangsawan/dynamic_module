@@ -1,6 +1,6 @@
 # Dynamic Module System
 
-A Django-based dynamic module system that allows for easy installation and management of modules. This system provides a flexible framework for adding and managing modules in your Django application.
+A Django-based dynamic module system that allows for easy installation and management of modules. This system provides a flexible framework for adding and managing modules in your Django application. This application already deployed on https://web-production-ea3a.up.railway.app.
 
 ## Features
 
