@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'theme',
     'main',
     'modules.product',
+    'modules.employee',
+    'modules.manager',
 ]
 
 MIDDLEWARE = [
@@ -60,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'main.middleware.ModuleAccessMiddleware',  # Add module access middleware
 ]
 
 ROOT_URLCONF = 'core.urls'

@@ -1,0 +1,8 @@
+{
+    "name": "employee",
+    "display_name": "Employee Management",
+    "description": "Simple employee management module",
+    "version": "1.0.0",
+    "author": "Budiman Arbenta",
+    "dependencies": []
+}

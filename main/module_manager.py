@@ -10,7 +10,6 @@ class ModuleManager:
     def update_module_metadata(module_name):
         """Update module metadata from metadata.json file."""
         try:
-            # Use BASE_DIR to ensure correct path resolution in production
             module_path = os.path.join(settings.BASE_DIR, 'modules', module_name)
             metadata_path = os.path.join(module_path, 'metadata.json')
             
@@ -20,7 +19,6 @@ class ModuleManager:
             with open(metadata_path, 'r') as f:
                 metadata = json.load(f)
             
-            # Use transaction to ensure data consistency
             with transaction.atomic():
                 module = ModuleRegistry.objects.select_for_update().get(name=module_name)
                 module.version = metadata['version']
@@ -36,11 +34,9 @@ class ModuleManager:
     def run_module_migrations(module_name):
         """Run migrations for a specific module."""
         try:
-            # In production, we should only run migrations, not make them
             if settings.DEBUG:
                 call_command('makemigrations', module_name)
             
-            # Always run migrations
             call_command('migrate', module_name)
             return True
         except Exception as e:
@@ -51,16 +47,13 @@ class ModuleManager:
     def upgrade_module(module_name):
         """Upgrade a module by updating metadata and running migrations."""
         try:
-            # Check if module exists and is installed
             module = ModuleRegistry.objects.get(name=module_name)
             if not module.is_installed:
                 raise ValueError(f"Module {module_name} is not installed")
             
-            # Update metadata
             if not ModuleManager.update_module_metadata(module_name):
                 return False
             
-            # Run migrations
             if not ModuleManager.run_module_migrations(module_name):
                 return False
             
@@ -72,5 +65,4 @@ class ModuleManager:
             print(f"Error upgrading module: {str(e)}")
             return False
 
-# Create a singleton instance
 module_manager = ModuleManager() 

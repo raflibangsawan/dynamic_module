@@ -16,31 +16,37 @@
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200/50 fixed w-full z-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <a href="{% url 'home' %}" class="text-gray-900 font-semibold text-lg">
-                        Dynamic Module
-                    </a>
+                <div class="flex items-center space-x-8">
+                    <div class="flex-shrink-0">
+                        <a href="{% url 'home' %}" class="text-2xl font-bold text-apple-blue-500">Dynamic Module</a>
+                    </div>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <form method="post" action="{% url 'logout' %}" class="inline">
-                        {% csrf_token %}
-                        <button type="submit" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Logout</button>
-                    </form>
+                <div class="flex items-center">
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'logout' %}" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="text-gray-600 hover:text-apple-blue-500 px-3 py-2 rounded-md text-sm font-medium">
+                                Logout
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}" class="text-gray-600 hover:text-apple-blue-500 px-3 py-2 rounded-md text-sm font-medium">
+                            Login
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="pt-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {% block content %}
-            {% endblock %}
-        </div>
+    <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        {% block content %}
+        {% endblock %}
     </main>
 
 </body>

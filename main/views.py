@@ -5,11 +5,39 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from .module_manager import module_manager
 from django.db import transaction
+from main.url_manager import get_urlpatterns
+import json
+import os
 
-# Create your views here.
+def scan_modules():
+    """Scan the modules directory and update the module registry."""
+    modules_dir = 'modules'
+    new_modules = []
+    for module_name in os.listdir(modules_dir):
+        module_path = os.path.join(modules_dir, module_name)
+        if os.path.isdir(module_path):
+            metadata_path = os.path.join(module_path, 'metadata.json')
+            if os.path.exists(metadata_path):
+                with open(metadata_path, 'r') as f:
+                    metadata = json.load(f)
+                    module, created = ModuleRegistry.objects.update_or_create(
+                        name=metadata['name'],
+                        defaults={
+                            'version': metadata['version'],
+                            'metadata': metadata
+                        }
+                    )
+                    if created:
+                        new_modules.append(metadata['name'])
+    return new_modules
 
 @login_required
 def home(request):
+    new_modules = scan_modules()
+    if new_modules:
+        messages.info(request, f'New modules detected: {", ".join(new_modules)}')
+    get_urlpatterns()
+    
     modules = ModuleRegistry.objects.all()
     return render(request, 'main/module_list.html', {'modules': modules})
 
@@ -21,12 +49,10 @@ def install_module(request, module_name):
             module.is_installed = True
             module.save()
             
-            # Add module to INSTALLED_APPS if not already present
             module_app = f'modules.{module_name}'
             if module_app not in settings.INSTALLED_APPS:
                 settings.INSTALLED_APPS.append(module_app)
             
-            # Run migrations after installation
             if not module_manager.run_module_migrations(module_name):
                 raise Exception("Failed to run module migrations")
             
@@ -46,7 +72,6 @@ def uninstall_module(request, module_name):
             module.is_installed = False
             module.save()
             
-            # Remove module from INSTALLED_APPS if present
             module_app = f'modules.{module_name}'
             if module_app in settings.INSTALLED_APPS:
                 settings.INSTALLED_APPS.remove(module_app)

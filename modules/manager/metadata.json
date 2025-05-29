@@ -1,0 +1,8 @@
+{
+    "name": "manager",
+    "display_name": "Manager Management",
+    "description": "Simple manager management module",
+    "version": "1.0.0",
+    "author": "Sae Pasomba",
+    "dependencies": []
+}
