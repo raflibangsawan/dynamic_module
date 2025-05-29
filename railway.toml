@@ -1,8 +1,8 @@
 [build]
 builder = "nixpacks"
-buildCommand = "python manage.py tailwind install && python manage.py tailwind build && python manage.py collectstatic --noinput"
+buildCommand = "python3 manage.py tailwind install && python3 manage.py tailwind build && python3 manage.py collectstatic --noinput"
 
 [deploy]
-startCommand = "python manage.py migrate && gunicorn core.wsgi:application"
+startCommand = "python3 manage.py migrate && gunicorn core.wsgi:application"
 healthcheckPath = "/"
 healthcheckTimeout = 100
